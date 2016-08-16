@@ -8,7 +8,7 @@ public class PlayerInput : MonoBehaviour
 	public KeyCode Jump;
 	public KeyCode Hose;
 
-	private float _speed = 5;
+	private float _speed = 240;
 	private float _jumpForce = 240;
 	private bool _facingRight = true;
 
@@ -30,16 +30,19 @@ public class PlayerInput : MonoBehaviour
 	{
 		var currentVelocity = _rigidBody.velocity;
 		currentVelocity.x = 0;
-		//_water.Stop ();
 		if (Input.GetKey(Left))
 		{
+			Debug.Log("Left");
+			if (_facingRight) Flip();
 			//IMovement.MoveLeft();
-			currentVelocity.x = -1 * _speed;
+			currentVelocity.x = -1 * _speed * Time.deltaTime;
 		}
 		if (Input.GetKey(Right))
 		{
+			Debug.Log("Right");
+			if (!_facingRight) Flip();
 			//IMovement.MoveRight();
-			currentVelocity.x = 1 * _speed;
+			currentVelocity.x = 1 * _speed * Time.deltaTime;
 		}
 		if (Input.GetKeyDown(Jump))
 		{
@@ -59,6 +62,7 @@ public class PlayerInput : MonoBehaviour
 
 	private void Flip()
 	{
+		Debug.Log("Flip");
 		_facingRight = !_facingRight;
 		var scale = transform.localScale;
 		scale.x *= -1;
@@ -75,10 +79,8 @@ public class PlayerInput : MonoBehaviour
 		{
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
+
 	}
 
 }
